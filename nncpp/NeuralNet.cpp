@@ -107,18 +107,22 @@ nn::NeuralNet nn::NewBrain(int ins, int hid, int out, std::vector<bool> genome) 
     
 std::vector<int> nn::NeuralNet::Run(std::vector<int> input) {
     //APPLYING INPUT
-    for (int i=0;i<input.size();i++) (this->Cells)[i].Val=input[i];
+    for (int i=0;i<input.size();i++) this->Cells[i].Val=input[i];
     //INITIALIZING VALUE MAP TO APPLY TO CELLS
-    std::vector<float> valMap; for (int i=0;i<((this->hid)+(this->out));i++) valMap.push_back(0.0f);
+    std::vector<float> valMap; for (int i=0;i<(this->hid+this->out);i++) valMap.push_back(0.0f);
     
-    for (int i=0;i<(this->Synapses).size();i++) {
-        nn::Synapse* syn = &(this->Synapses[i]);
+    for (int i=0;i<this->Synapses.size();i++) {
+        nn::Synapse* syn = &this->Synapses[i];
         //Adding Source cell value*synapse weight to the target cell value.
-        valMap[(syn->Target)+(this->ins)]+= ((this->Cells)[syn->Source]).Val*(syn->Weight);
+        valMap[syn->Target-this->ins]+= this->Cells[syn->Source].Val*syn->Weight;
     }
     
-    for (int i=(this->ins)+1;i<(this->Cells).size();i++) {
-        
+    for (int i=this->ins;i<this->Cells.size();i++) {
+        float val = valMap[i-this->ins]+this->Cells[i].Bias;
+        if (this->Cells[i].Activation) {
+            val = 1
+        }
+        this->Cells[i].Val= 
     }
     
     return input;
