@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "nn.h"
+#include "NeuralNet.h"
 
 int main() {
     std::vector<bool> genome = nn::RandomGenome(2,2,2,16);
