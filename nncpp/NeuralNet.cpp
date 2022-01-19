@@ -105,27 +105,34 @@ nn::NeuralNet nn::NewBrain(int ins, int hid, int out, std::vector<bool> genome) 
     
     
     
-std::vector<int> nn::NeuralNet::Run(std::vector<int> input) {
+std::vector<float> nn::NeuralNet::Run(std::vector<float> input) {
     //APPLYING INPUT
-    for (int i=0;i<input.size();i++) this->Cells[i].Val=input[i];
+    for (int i=0; i<input.size(); i++) this->Cells[i].Val=input[i];
     //INITIALIZING VALUE MAP TO APPLY TO CELLS
     std::vector<float> valMap; for (int i=0;i<(this->hid+this->out);i++) valMap.push_back(0.0f);
     
-    for (int i=0;i<this->Synapses.size();i++) {
+    for (int i=0; i<this->Synapses.size(); i++) {
         nn::Synapse* syn = &this->Synapses[i];
         //Adding Source cell value*synapse weight to the target cell value.
         valMap[syn->Target-this->ins]+= this->Cells[syn->Source].Val*syn->Weight;
     }
     
-    for (int i=this->ins;i<this->Cells.size();i++) {
+    for (int i=this->ins; i<this->Cells.size(); i++) {
+        //APPLYING BIAS
         float val = valMap[i-this->ins]+this->Cells[i].Bias;
-        if (this->Cells[i].Activation) {
-            val = 1
-        }
-        this->Cells[i].Val= 
+        //SIGMOID ACTIVATION FUNCTION, if the activation type is 1
+        if (this->Cells[i].Activation) val = 1/(1+pow(2,-val));
+        //STANDARD CROPPING to 1-0, if the ativation type is 0
+        else if (val>1) val=1; else if (val<0) val=0;
+        this->Cells[i].Val= val;
+    }
+    std::vector<float> output;
+    for (int i=this->ins+this->hid; i<this->ins+this->hid+this->out; i++) {
+        output.push_back(this->Cells[i].Val);
     }
     
-    return input;
+    
+    return output;
 }
 
     
