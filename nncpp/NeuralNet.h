@@ -1,3 +1,6 @@
+#ifndef NEURALNET_H
+#define NEURALNET_H
+
 #include <vector>
 
 namespace nn {
@@ -26,3 +29,5 @@ namespace nn {
     std::vector<bool> RandomGenome(int, int, int, int);
     NeuralNet NewBrain(int, int, int, std::vector<bool>);
 }
+
+#endif
