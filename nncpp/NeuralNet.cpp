@@ -1,23 +1,23 @@
 #include <cmath>
-#include <random>
-
+#include <cstdlib.h>
+#include <time.h>
 #include "NeuralNet.h"
 
 namespace  math {
-    std::random_device dev;
-	std::mt19937 rng(dev());
-	std::uniform_int_distribution<std::mt19937::result_type> randbit(0,1);
 	int BitsInNum(int num) {
 	    if (num) return (int)ceil(log2(num));
 	    return 0;
 	}
 }
 
+void nn::InitRandom() {
+    srand(time(NULL));
+}
 
 std::vector<bool> nn::RandomGenome(int ins, int hid, int out, int synapses) {
 	std::vector<bool> genome;
 	for (int i=0;i<synapses*(math::BitsInNum(ins+hid+out)+math::BitsInNum(hid+out)+21);i++) {
-	    genome.push_back(math::randbit(math::rng));
+	    genome.push_back(rand()%2);
 	}
 	
 	return genome;
@@ -134,5 +134,13 @@ std::vector<float> nn::NeuralNet::Run(std::vector<float> input) {
     
     return output;
 }
+
+std::vector<bool> nn::MutateGenome(std::vector<bool> original, int rate) {
+    std::vector<bool> copied;
+    for (int i=0;i<original.size();i++) 
+        copied.push_back((ran()%rate==0) ? !origina[i]:original[i]);
+    
+}
+
 
     
