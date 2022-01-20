@@ -23,7 +23,7 @@ namespace nn {
         int hid;
         int out;
         
-        std::vector<int> Run(std::vector<int>);
+        std::vector<float> Run(std::vector<float>);
     };
     
     std::vector<bool> RandomGenome(int, int, int, int);
