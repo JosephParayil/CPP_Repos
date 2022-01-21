@@ -26,8 +26,10 @@ namespace nn {
         std::vector<float> Run(std::vector<float>);
     };
     
+    void nn::InitRandom();
     std::vector<bool> RandomGenome(int, int, int, int);
     NeuralNet NewBrain(int, int, int, std::vector<bool>);
+    std::vector<bool> MutateGenome(std::vector<bool>, i;nt)
 }
 
 #endif
