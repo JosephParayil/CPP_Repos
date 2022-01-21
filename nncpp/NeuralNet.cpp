@@ -1,6 +1,6 @@
 #include <cmath>
-#include <cstdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 #include "NeuralNet.h"
 
 namespace  math {
@@ -138,8 +138,9 @@ std::vector<float> nn::NeuralNet::Run(std::vector<float> input) {
 std::vector<bool> nn::MutateGenome(std::vector<bool> original, int rate) {
     std::vector<bool> copied;
     for (int i=0;i<original.size();i++) 
-        copied.push_back((ran()%rate==0) ? !origina[i]:original[i]);
-    
+        copied.push_back( (rand()%rate==0)? 
+        !original[i] : original[i]);
+    return copied;
 }
 
 
